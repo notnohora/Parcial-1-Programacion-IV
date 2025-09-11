@@ -1,9 +1,9 @@
 import xml.etree.ElementTree as ET
 
 class Producto:
-    def __init__(self, nombre, id, precio, cantidad_inventario):
+    def __init__(self, nombre, id_producto, precio, cantidad_inventario):
         self.nombre = nombre
-        self.id = int(id)
+        self.id_producto = int(id_producto)
         self.precio = float(precio)
         self.cantidad_inventario = int(cantidad_inventario)
 
@@ -14,12 +14,12 @@ class Producto:
         self.cantidad_inventario += aumento
 
     def mostrar_informacion(self):
-        return f"Producto: {self.nombre}, ID: {self.id}, Precio: ${self.precio}, Cantidad en Inventario: {self.cantidad_inventario}"
+        return f"Producto: {self.nombre}, ID: {self.id_producto}, Precio: ${self.precio}, Cantidad en Inventario: {self.cantidad_inventario}"
 
 class Cliente:
-    def __init__(self, nombre, id, saldo):
+    def __init__(self, nombre, id_cliente, saldo):
         self.nombre = nombre
-        self.id = int(id)
+        self.id_cliente = int(id_cliente)
         self.saldo = float(saldo)
 
     def realizar_compra(self, producto, cantidad):
@@ -32,7 +32,7 @@ class Cliente:
             return False
 
     def mostrar_informacion(self):
-        return f"Cliente: {self.nombre}, ID: {self.id}, Saldo: ${self.saldo}"
+        return f"Cliente: {self.nombre}, ID: {self.id_cliente}, Saldo: ${self.saldo}"
 
 class Tienda:
     def __init__(self):
@@ -50,12 +50,12 @@ class Tienda:
         producto = None
 
         for c in self.lista_clientes_registrados:
-            if c.id == id_cliente:
+            if c.id_cliente == id_cliente:
                 cliente = c
                 break
 
         for p in self.lista_productos:
-            if p.id == id_producto:
+            if p.id_producto == id_producto:
                 producto = p
                 break
 
@@ -82,7 +82,7 @@ class Tienda:
         for producto in self.lista_productos:
             prod_elem = ET.SubElement(productos_elem, "Producto")
             ET.SubElement(prod_elem, "Nombre").text = producto.nombre
-            ET.SubElement(prod_elem, "ID").text = str(producto.id)
+            ET.SubElement(prod_elem, "ID").text = str(producto.id_producto)
             ET.SubElement(prod_elem, "Precio").text = str(producto.precio)
             ET.SubElement(prod_elem, "Cantidad").text = str(producto.cantidad_inventario)
 
@@ -90,7 +90,7 @@ class Tienda:
         for cliente in self.lista_clientes_registrados:
             cli_elem = ET.SubElement(clientes_elem, "Cliente")
             ET.SubElement(cli_elem, "Nombre").text = cliente.nombre
-            ET.SubElement(cli_elem, "ID").text = str(cliente.id)
+            ET.SubElement(cli_elem, "ID").text = str(cliente.id_cliente)
             ET.SubElement(cli_elem, "Saldo").text = str(cliente.saldo)
 
         tree = ET.ElementTree(root)
@@ -104,16 +104,16 @@ class Tienda:
 
         for prod_elem in root.find("Productos"):
             nombre = prod_elem.find("Nombre").text
-            id = int(prod_elem.find("ID").text)
+            id_producto = int(prod_elem.find("ID").text)
             precio = float(prod_elem.find("Precio").text)
             cantidad = int(prod_elem.find("Cantidad").text)
-            self.lista_productos.append(Producto(nombre, id, precio, cantidad))
+            self.lista_productos.append(Producto(nombre, id_producto, precio, cantidad))
 
         for cli_elem in root.find("Clientes"):
             nombre = cli_elem.find("Nombre").text
-            id = int(cli_elem.find("ID").text)
+            id_cliente = int(cli_elem.find("ID").text)
             saldo = float(cli_elem.find("Saldo").text)
-            self.lista_clientes_registrados.append(Cliente(nombre, id, saldo))
+            self.lista_clientes_registrados.append(Cliente(nombre, id_cliente, saldo))
 
 
 def main():
@@ -125,15 +125,24 @@ def main():
     tienda.agregar_cliente(Cliente("Nohora", 100, 2000.0))
     tienda.agregar_cliente(Cliente("Pablo", 101, 30.0))
 
+    print("\nProductos disponibles:")
+    print("-" * 80)
     tienda.mostrar_productos()
+    print("\nClientes registrados:")
+    print("-" * 80)
     tienda.mostrar_clientes()
 
+    print("\nEstado de ventas:")
+    print("-" * 80)
     tienda.realizar_venta(100, 1, 1)
     tienda.realizar_venta(101, 1, 1)
 
     tienda.guardar_datos("tienda.xml")
+    print("\nDatos guardados en 'tienda.xml'\n")
 
     nueva_tienda = Tienda()
+    print("\nCargando datos desde 'tienda.xml'")
+    print("-" * 80)
     nueva_tienda.cargar_datos("tienda.xml")
     nueva_tienda.mostrar_productos()
     nueva_tienda.mostrar_clientes()

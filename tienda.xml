@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tienda><Productos><Producto><Nombre>Laptop</Nombre><ID>1</ID><Precio>1500.0</Precio><Cantidad>4</Cantidad></Producto><Producto><Nombre>Mouse</Nombre><ID>2</ID><Precio>20.0</Precio><Cantidad>50</Cantidad></Producto></Productos><Clientes><Cliente><Nombre>Nohora</Nombre><ID>100</ID><Saldo>500.0</Saldo></Cliente><Cliente><Nombre>Pablo</Nombre><ID>101</ID><Saldo>30.0</Saldo></Cliente></Clientes></Tienda>
