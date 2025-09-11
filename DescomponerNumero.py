@@ -1,4 +1,4 @@
-def CalcularMultiplo(a, b):
+def calcular_multiplo(a, b):
     return a % b == 0
 
 def main():
@@ -13,7 +13,7 @@ def main():
         digitos.append(numero%10)
         numero = int(numero/10)
 
-    if(CalcularMultiplo(digitos[3], digitos[0])):
+    if(calcular_multiplo(digitos[3], digitos[0])):
         print("El primer digito es multiplo del cuarto digito\n")
     else:
         print("El primer digito NO es multiplo del cuarto digito\n")

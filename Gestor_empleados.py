@@ -1,12 +1,12 @@
 class Empleado():
-    def __init__(self, nombre, id, salario_base, anios_experiencia):
+    def __init__(self, nombre, id_empleado, salario_base, anios_experiencia):
         self.nombre = nombre
-        self.id = id
+        self.id_empleado = id_empleado
         self.salario_base = salario_base
         self.anios_experiencia = anios_experiencia
         
     def __str__(self):
-        return f"Empleado: {self.nombre}, ID: {self.id}, Salario Base: {self.salario_base}, Años de Experiencia: {self.anios_experiencia}"
+        return f"Empleado: {self.nombre}, ID: {self.id_empleado}, Salario Base: {self.salario_base}, Años de Experiencia: {self.anios_experiencia}"
         
     def calcular_salario(self):
         if 0 <= self.anios_experiencia < 3:
@@ -24,27 +24,27 @@ class GestorEmpleados():
         self.siguiente_id = 1 #con este atributo los ID seran incrementales
 
     def agregar_empleado(self, empleado):
-        empleado.id = self.siguiente_id
+        empleado.id_empleado = self.siguiente_id
         self.empleados.append(empleado)
-        print(f"Empleado agregado con ID {empleado.id}.")
+        print(f"Empleado agregado con ID {empleado.id_empleado}.")
         self.siguiente_id += 1 #incrementa el ID para el proximo empleado
 
-    def eliminar_empleado(self, id):
-        empleado = self.buscar_empleado(id)
+    def eliminar_empleado(self, id_empleado):
+        empleado = self.buscar_empleado(id_empleado)
         if empleado:
             self.empleados.remove(empleado)
-            print(f"Empleado con ID {id} eliminado.")
+            print(f"Empleado con ID {id_empleado} eliminado.")
         else:
-            print(f"No se encontró empleado con ID {id}.")
+            print(f"No se encontró empleado con ID {id_empleado}.")
         
-    def buscar_empleado(self, id):
+    def buscar_empleado(self, id_empleado):
         for empleado in self.empleados:
-            if empleado.id == id:
+            if empleado.id_empleado == id_empleado:
                 return empleado
         return None
     
-    def editar_empleado(self, id):
-        empleado = self.buscar_empleado(id)
+    def editar_empleado(self, id_empleado):
+        empleado = self.buscar_empleado(id_empleado)
         if empleado:
             cambios = False
             nuevo_nombre = input("Ingrese el nuevo nombre (ENTER para no cambiar): ").strip()
@@ -76,20 +76,20 @@ class GestorEmpleados():
                         empleado.anios_experiencia = nueva_experiencia
                         cambios = True
                         
-            nuevo_id = input("Ingrese el nuevo ID (ENTER para no cambiar): ").strip()
-            if nuevo_id:
-                if not nuevo_id.isdigit():
+            nuevo_id_empleado = input("Ingrese el nuevo ID (ENTER para no cambiar): ").strip()
+            if nuevo_id_empleado:
+                if not nuevo_id_empleado.isdigit():
                     print("El ID debe ser un número entero válido.")
                 else:
-                    nuevo_id = int(nuevo_id)
-                    if nuevo_id <= 0:
+                    nuevo_id_empleado = int(nuevo_id_empleado)
+                    if nuevo_id_empleado <= 0:
                         print("El ID debe ser un número entero positivo.")
-                    elif self.buscar_empleado(nuevo_id):
+                    elif self.buscar_empleado(nuevo_id_empleado):
                         print("El ID ya está en uso. No se puede cambiar.")
                     else:
-                        empleado.id = nuevo_id
-                        if empleado.id >= self.siguiente_id:
-                            self.siguiente_id = empleado.id + 1  #asegura que los ID sigan siendo incrementales
+                        empleado.id_empleado = nuevo_id_empleado
+                        if empleado.id_empleado >= self.siguiente_id:
+                            self.siguiente_id = empleado.id_empleado + 1  #asegura que los ID sigan siendo incrementales
                         cambios = True
 
             if cambios:
@@ -98,7 +98,7 @@ class GestorEmpleados():
             else:
                 print("No se realizaron cambios.")
         else:
-            print(f"No se encontró empleado con ID {id}.")
+            print(f"No se encontró empleado con ID {id_empleado}.")
             
     def mostrar_empleados(self):
         print("\nListado de Empleados:")
@@ -111,7 +111,7 @@ class GestorEmpleados():
     def guardar_empleados(self, nombre_archivo):
         with open(nombre_archivo, "w") as archivo:
             for empleado in self.empleados:
-                archivo.write(f"{empleado.nombre},{empleado.id},{empleado.salario_base},{empleado.anios_experiencia}\n")
+                archivo.write(f"{empleado.nombre},{empleado.id_empleado},{empleado.salario_base},{empleado.anios_experiencia}\n")
                 #NO SÉ SI GUARDAR EL SALARIO TOTAL, DEJO EL BASE POR EL MOMENTO
 
     def cargar_empleados(self, nombre_archivo):
@@ -121,11 +121,11 @@ class GestorEmpleados():
             for linea in archivo:
                 registro = linea.strip().split(",")
                 nombre = registro[0]
-                id = registro[1]
+                id_empleado = registro[1]
                 salario_base = registro[2]
                 anios_experiencia = registro[3]
                 
-                empleado = Empleado(nombre, int(id), float(salario_base), int(anios_experiencia))
+                empleado = Empleado(nombre, int(id_empleado), float(salario_base), int(anios_experiencia))
                 self.agregar_empleado(empleado)
         
 gestor = GestorEmpleados()
@@ -152,26 +152,26 @@ while True:
         
     elif opcion == "2":
         if gestor.empleados:
-            id = int(input("Ingrese el ID del empleado a eliminar: "))
-            gestor.eliminar_empleado(id)
+            id_empleado = int(input("Ingrese el ID del empleado a eliminar: "))
+            gestor.eliminar_empleado(id_empleado)
         else:
             print("No hay empleados registrados.")
         
     elif opcion == "3":
         if gestor.empleados:
-            id = int(input("Ingrese el ID del empleado a buscar: "))
-            empleado = gestor.buscar_empleado(id)
+            id_empleado = int(input("Ingrese el ID del empleado a buscar: "))
+            empleado = gestor.buscar_empleado(id_empleado)
             if empleado:
                 print(empleado)
             else:
-                print(f"No se encontró empleado con ID {id}.")
+                print(f"No se encontró empleado con ID {id_empleado}.")
         else:
             print("No hay empleados registrados.")
             
     elif opcion == "4":
         if gestor.empleados:
-            id = int(input("Ingrese el ID del empleado a editar: "))
-            gestor.editar_empleado(id)
+            id_empleado = int(input("Ingrese el ID del empleado a editar: "))
+            gestor.editar_empleado(id_empleado)
         else:
             print("No hay empleados registrados.")
             
