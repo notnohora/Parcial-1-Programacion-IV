@@ -98,7 +98,7 @@ class GestorEmpleados():
             else:
                 print("No se realizaron cambios.")
         else:
-            print(f"No se encontró empleado con ID {id}.")
+            print(f"No se encontró empleado con ID {id_empleado}.")
             
     def mostrar_empleados(self):
         print("\nListado de Empleados:")
